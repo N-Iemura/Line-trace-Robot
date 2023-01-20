@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="x" default="1.36"/>
+  <arg name="y" default="-1"/>
+  <arg name="z" default="0"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+
+ <param name="robot_description"
+     command="$(find xacro)/xacro '$(find sd_sample_pkg)/urdf/robot.urdf.xacro'" />
+
+ <include file="$(find gazebo_ros)/launch/empty_world.launch">
+   <arg name="world_name" value="$(find sd_sample_pkg)/worlds/course.world"/>
+ </include>
+
+ <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model"
+     args="-param robot_description -urdf -model SimpleMouse  -x $(arg x) -y $(arg y) -z $(arg z)
+     -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)" />
+
+<!--
+ <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+ <node name="rviz" pkg="rviz" type="rviz" args="-f odometry" />-->
+
+</launch>

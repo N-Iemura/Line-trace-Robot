@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<robot name="SimpleMouse" xmlns:xacro="http://ros.org/wiki/xacro">
+
+ <xacro:include filename="$(find sd_sample_pkg)/urdf/body.urdf.xacro" />
+ <xacro:include filename="$(find sd_sample_pkg)/urdf/wheel.urdf.xacro" />
+ <xacro:include filename="$(find sd_sample_pkg)/urdf/light_sensor.urdf.xacro" />
+ <xacro:include filename="$(find sd_sample_pkg)/urdf/camera.urdf.xacro" />
+
+  <gazebo>
+    <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+      <leftJoint>wheel_l_joint</leftJoint>
+      <rightJoint>wheel_r_joint</rightJoint>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <wheelSeparation>0.08</wheelSeparation>
+      <wheelDiameter>0.048</wheelDiameter>
+      <publishWheelJointState>true</publishWheelJointState>
+      <legacyMode>false</legacyMode>
+      <odometryTopic>odometry</odometryTopic>
+      <odometryFrame>odometry</odometryFrame>
+    </plugin>
+  </gazebo>
+
+ <xacro:wheel rl="r" parent="body" />
+ <xacro:wheel rl="l" parent="body" />
+ <xacro:gazebo_light_sensor name="front" parent="body" xyz="0 0.02 0.03" direction="0" />
+ <xacro:camera_macro name="camera/rgb" parent="body" xyz="0 0 0" rpy="${radians(-90)} ${radians(180)} 0"/>
+</robot>

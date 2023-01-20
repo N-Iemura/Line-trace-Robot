@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<!-- p.92  -->
+<robot name="light_sensor" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<xacro:property name="light_range" value="0.18"/>
+<xacro:property name="min_range" value="0.01"/>
+<xacro:property name="max_range" value="1.0"/>
+<xacro:property name="PI" value="3.14159265358979"/>
+
+<xacro:macro name="gazebo_light_sensor" params="name parent xyz direction">
+    <link name="${name}_sensor">
+        <visual>
+            <geometry>
+                <box size="0.01 0.005 0.005"/>
+            </geometry>
+        </visual>
+        <inertial>
+            <mass value="0.0001"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0"
+                     iyx="0" iyy="0.0001" iyz="0"
+                     izx="0" izy="0" izz="0.001" />
+        </inertial>
+    </link>
+
+    <joint name="${name}_sensor_joint" type="fixed">
+        <parent link="${parent}"/>
+        <child link="${name}_sensor"/>
+        <origin xyz="${xyz}" rpy="0 0 ${PI/2 + direction}"/>
+    </joint>
+
+    <gazebo reference="${name}_sensor">
+        <sensor type="ray" name="${name}_light_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+
+            <ray>
+                <scan>
+                    <horizontal>
+                        <sapmles>10</sapmles>
+                        <resolution>1</resolution>
+                        <min_angle>${light_range/2}</min_angle>
+                        <max_angle>${light_range/2}</max_angle>
+                    </horizontal>
+                </scan>
+
+                <range>
+                    <min>${min_range}</min>
+                    <max>${max_range}</max>
+                    <resolution>0.001</resolution>
+                </range>
+
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stdev>0.005</stdev>
+                </noise>
+            </ray>
+
+            <plugin name="gazebo_${name}_light_sensor_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/light_sensor/${name}/scan</topicName>
+                <frameName>${name}_sensor</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+</xacro:macro>
+</robot>

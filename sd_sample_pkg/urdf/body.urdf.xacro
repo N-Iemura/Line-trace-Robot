@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<robot name="body" xmlns:xacro="http://ros.org/wiki/xacro">
+<link name="base_link" />
+
+<xacro:property name="b_m" value="1.68"/>
+<xacro:property name="b_m2" value="${b_m/12}"/>
+<xacro:property name="b_w" value="0.07"/>
+<xacro:property name="b_h" value="0.13"/>
+<xacro:property name="b_d" value="0.055"/>
+<link name="body">
+   <visual>
+　　<geometry>
+　　　<box size="${b_w} ${b_h} ${b_d}" />
+     </geometry>
+  </visual>
+   <collision>
+　　<geometry>
+　　　<box size="${b_w} ${b_h} ${b_d}" />
+     </geometry>
+  </collision>
+  <inertial>
+     <origin xyz="0 0 0" rpy="0 0 0" />
+     <mass value="${b_m}" />
+    <inertia ixx="${b_m2*(b_h*b_h+b_d*b_d)}" ixy="0"    ixz="0"
+                 iyx="0"   iyy="${b_m2*(b_w*b_w+b_d*b_d)}"  iyz="0"
+		 izx="0"   izy="0"  izz="${b_m2*(b_w*b_w+b_h*b_h)}" />
+  </inertial>
+</link>
+<joint name="body_joint" type="fixed">
+<parent link="base_link" />
+   <child link="body" />
+   <origin xyz="0 0 0.0275" rpy="0 0 0" />
+</joint>
+</robot>
+

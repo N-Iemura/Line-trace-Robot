@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<robot name="wheel" xmlns:xacro="http://ros.org/wiki/xacro" >
+
+<xacro:property name="PI" value="3.1415926535897931"/>
+<xacro:property name="wheel_radius" value="0.024"/>
+<xacro:property name="wheel_height" value="0.008"/>
+<xacro:property name="wheel_mass" value="0.112"/>
+
+<xacro:macro name="wheel" params="rl parent">
+<link name="wheel_${rl}">
+<visual>
+  <geometry>
+     <cylinder length="${wheel_height}" radius="${wheel_radius}" />
+  </geometry>
+</visual>
+   <collision>
+　　<geometry>
+　　　<cylinder radius="${wheel_radius}" length="${wheel_height}" />
+     </geometry>
+  </collision>
+  <inertial>
+     <origin xyz="0 0 0" rpy="0 0 0" />
+     <mass value="${wheel_mass}" />
+    <inertia ixx="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_height*wheel_height)/12}" 
+        ixy="0"  ixz="0"
+        iyx="0"  iyy="${wheel_mass*(3*wheel_radius*wheel_radius+wheel_height*wheel_height)/12}" 
+         iyz="0"
+         izx="0"  izy="0"  izz="${wheel_mass*(wheel_radius*wheel_radius)/2}" />
+  </inertial>
+</link>
+<joint name="wheel_${rl}_joint" type="continuous">
+  <parent link="${parent}" />
+  <child link="wheel_${rl}" />
+  <xacro:if value="${rl == 'r'}">
+    <origin xyz="0.04 0 ${0.022 - 0.0275}" rpy="0 ${PI/2} 0" />
+  </xacro:if>
+  <xacro:if value="${rl == 'l'}">
+     <origin xyz="-0.04 0 ${0.022 - 0.0275}" rpy="0 ${PI/2} 0" />
+  </xacro:if>
+  <axis xyz="0 0 -1" />
+  <limit effort="10" velocity="10" />
+  <joint_properties damping="0.0" friction="0.0" />
+</joint>
+</xacro:macro>
+</robot>
