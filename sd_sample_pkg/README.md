@@ -22,7 +22,7 @@ rosrun sd_sample_pkg teleop.py
 ```
 (↑上から２行目までは権限付与用のため一度やればよい。)
 
-1,2で左回りか右回りかを選択できる。
+1,2を入力することで左回りか右回りかを選択できる。
 
 ![2](https://user-images.githubusercontent.com/79625740/214286000-4681eb54-e3fe-4a2b-88b9-1c391f9cc17b.png)
 
