@@ -12,7 +12,7 @@ roslaunch sd_sample_pkg robot_simulation.launch
 ### 起動コマンド
 ```
 roscd sd_sample_pkg/scripts
-chmod +x　teleop.py
+chmod +x teleop.py
 rosrun sd_sample_pkg teleop.py
 ```
 ↑上から２行目までは権限付与用のため一度やればよい。
@@ -24,7 +24,7 @@ rosrun sd_sample_pkg teleop.py
 ### 起動コマンド
 ```
 roscd sd_sample_pkg/scripts
-chmod +x　follower_line_finder.py
+chmod +x follower_line_finder.py
 rosrun sd_sample_pkg follower_line_finder.py
 ```
 ↑上から２行目までは権限付与用のため一度やればよい。
